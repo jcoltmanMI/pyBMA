@@ -14,11 +14,11 @@ pyBMA can be installed from pypi using pip as normal
 
 Given a survial dataset, pyBMA does the following things:
 
-1 - Uses a leaps and bounds algorithm to sample model space
+1 - Creates all possible combinations of models
 
-2 - Uses [lifelines](http://lifelines.readthedocs.io/en/latest/Survival%20Regression.html#cox-s-proportional-hazard-model) to run Cox Proprtional hazards and generate log-likihood.
+2 - Uses [lifelines](http://lifelines.readthedocs.io/en/latest/Survival%20Regression.html#cox-s-proportional-hazard-model) to run Cox Proprtional hazards and generate log-likihoods.
 
-3 - Calculates the posterior likihood of the model given the data and some priors
+3 - Calculates the posterior likihood for each model given the data and some given prior
 
 4 - Performs a weighted average over the models based on the posterior model likihood
 	
@@ -38,14 +38,14 @@ cf.fit(rossi_dataset, 'week', event_col='arrest')
 
 ```
 
-One addition is that you can now specify a prior for each variable.  This should be inputted as a numpy array of numbers between 0 and 1 in the same order as the covariate variables appear in the main dataframe.  The prior for a variable is your belief about the probability that the variable will be included in the correct model.  E.g. if you are certain that a variable must occur in a model for it to be correct, then set the prior for that variable to 1, while if you consider it as likely as not to be included then choose 0.5.  The default sets all the priors to 0.5
+One addition is that you can now specify a prior for each variable.  This should be inputted as a numpy list of numbers between 0 and 1 in the same order as the covariate variables appear in the main dataframe.  The prior for each variable is your belief about the probability that the variable will be included in the correct model.  E.g. if you are certain that a variable must occur in a model for it to be correct, then set the prior for that variable to 1, while if you consider it as likely as not to be included then choose 0.5.  The default sets all the priors to 0.5.
 
 
 ``` python
 
 ##pyBMA version
 bma_cf = CoxPHFitter()
-bma_cf.fit(rossi_dataset, 'week', event_col='arrest', priors = np.array([0.3, 0.6, 0.7, 0.1, 0.9, 0.5, 0.03])
+bma_cf.fit(rossi_dataset, 'week', event_col='arrest', priors = [0.3, 0.6, 0.7, 0.1, 0.9, 0.5, 0.03])
 
 ```
 
